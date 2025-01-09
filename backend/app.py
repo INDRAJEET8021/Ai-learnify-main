@@ -10,7 +10,6 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 import os
 import requests
 from dotenv import load_dotenv
-import io
 
 load_dotenv()
 
@@ -230,26 +229,79 @@ def get_module():
     if user.course:
         response = requests.get(user.course)
         if response.status_code == 200:
-            existing_course = response.json()  # Parse the existing course content
+            existing_course = response.json()  # Parse the existing roadmap content
         else:
             existing_course = []
-
-        # Check if the course is already available
+        
         course = next((c for c in existing_course if c['id'].lower() == course_id.lower()), None)
+
         if course:
-            return jsonify(course), 200
+            return jsonify(course)
+        
+         # Download the roadmap content
+        response = requests.get(user.roadmap)
+        if response.status_code == 200:
+            existing_roadmap = response.json()  # Parse the roadmap content
+        else:
+            return jsonify({"error": "Failed to fetch roadmap content."}), response.status_code
+        
+        course = next((c for c in existing_roadmap if c['id'].lower() == course_id.lower()), None)
+        if not course:
+            print("Not course")
+            return jsonify({"error": "Course not found."}), 404
+        
+        # Prepare the detailed course
+        detailed_course = {
+            "title": course["title"],
+            "id": course["id"],
+            "modules": []
+        }
 
-    # Fetch roadmap content if course is not found
+        for module in course['modules']:
+            module_content = {
+                "moduleTitle": module["moduleTitle"],
+                "headings": []
+            }
+
+            for heading in module['headings']:
+                module_content['headings'].append({
+                    "heading": heading,
+                    "description": safe_gen_course(heading, retries=MAX_RETRIES)
+                })
+
+            detailed_course["modules"].append(module_content)
+
+        existing_course.extend([detailed_course])
+
+        cloudinary.uploader.destroy(user.course, resource_type="raw")
+
+        update_courses_in_file(f'{email}_detailed_course.json', existing_course)
+
+        try:
+            # Upload the updated roadmap to Cloudinary
+            course_response = cloudinary.uploader.upload(f'{email}_detailed_course.json', resource_type="raw")
+            course_url = course_response['secure_url']
+            user.course = course_url  # Update the URL in the user's record
+            db.session.commit()
+            os.remove(f'{email}_detailed_course.json')
+            return jsonify(detailed_course), 200
+        except Exception as e:
+            print(f'Error: {e}')
+            return jsonify({"error": "Failed to upload the detailed course."}), 500
+      
+    # Download the roadmap content
     response = requests.get(user.roadmap)
-    if response.status_code != 200:
+    if response.status_code == 200:
+        existing_roadmap = response.json()  # Parse the roadmap content
+    else:
         return jsonify({"error": "Failed to fetch roadmap content."}), response.status_code
-
-    roadmap_content = response.json()
-    course = next((c for c in roadmap_content if c['id'].lower() == course_id.lower()), None)
+    
+    course = next((c for c in existing_roadmap if c['id'].lower() == course_id.lower()), None)
     if not course:
+        print("Not course")
         return jsonify({"error": "Course not found."}), 404
-
-    # Prepare the detailed course data
+    
+    # Prepare the detailed course
     detailed_course = {
         "title": course["title"],
         "id": course["id"],
@@ -270,23 +322,22 @@ def get_module():
 
         detailed_course["modules"].append(module_content)
 
-    # Update the existing courses list
-    if user.course:
-        existing_course.append(detailed_course)
-    else:
-        existing_course = [detailed_course]
+    with open(f'{email}_detailed_course.json', 'w') as f:
+        json.dump([detailed_course], f)
 
-    # Upload directly to Cloudinary without saving locally
+    # Upload the detailed course to Cloudinary
     try:
-        upload_response = cloudinary.uploader.upload(
-            file=io.BytesIO(json.dumps(existing_course).encode('utf-8')),
+        detailed_response = cloudinary.uploader.upload(
+            f'{email}_detailed_course.json', 
             resource_type="raw"
         )
-        user.course = upload_response['secure_url']  # Update the user's course URL
+        detailed_url = detailed_response['secure_url']
+        user.course = detailed_url
         db.session.commit()
+        os.remove(f'{email}_detailed_course.json')
         return jsonify(detailed_course), 200
     except Exception as e:
-        print(f"Error uploading to Cloudinary: {e}")
+        print(e)
         return jsonify({"error": "Failed to upload the detailed course."}), 500
 
 @app.route('/chat', methods=['POST'])
