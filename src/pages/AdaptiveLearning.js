@@ -84,23 +84,13 @@ export default function AdaptiveLearning() {
 
   const getRandomProgress = () => Math.floor(Math.random() * 101);
 
-  if (loading) {
-    return (
-      <Box sx={{ textAlign: "center", marginTop: "50px" }}>
-        <Typography variant="h6">Loading courses...</Typography>
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ textAlign: "center", marginTop: "50px" }}>
-        <Typography variant="h6" color="error">
-          {error}
-        </Typography>
-      </Box>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Box sx={{ textAlign: "center", marginTop: "50px" }}>
+  //       <Typography variant="h6">Loading courses...</Typography>
+  //     </Box>
+  //   );
+  // }
 
   return (
     <div>
@@ -136,7 +126,16 @@ export default function AdaptiveLearning() {
             Your Courses
           </Typography>
           <Divider sx={{ marginY: 2 }} />
-          {courses === null ? (
+
+          {loading ? (
+            <Box sx={{ textAlign: "center", marginTop: "50px" }}>
+              <Typography variant="h6">Loading courses...</Typography>
+            </Box>
+          ) : error ? (
+            <Box sx={{ textAlign: "center", marginTop: "50px" }}>
+              <Typography>{error}</Typography>
+            </Box>
+          ) : courses === null ? (
             <Box sx={{ textAlign: "center", marginTop: "50px" }}>
               <Typography
                 variant="h5"
@@ -392,7 +391,6 @@ export default function AdaptiveLearning() {
         navigate("/")
       )}
       <ChatButton />
-     
     </div>
   );
 }
