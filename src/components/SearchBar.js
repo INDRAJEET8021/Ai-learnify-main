@@ -123,11 +123,39 @@ export default function SearchBar() {
 
       {/* Loading Spinner */}
       {loading && (
-        <Box
-          sx={{ display: "flex", justifyContent: "center", marginTop: "40px" }}
-        >
-          <CircularProgress size={40} color="success" />
-        </Box>
+        <>
+          {/* Darken the screen */}
+          <Box
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Darken the background
+              zIndex: 9998, // Below the loader
+              pointerEvents: "none", // Prevent the overlay from blocking interaction
+            }}
+          />
+
+          {/* Loader with blur effect */}
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999, // On top of the darkened overlay
+              backdropFilter: "blur(5px)", // Apply blur effect to the background content
+              borderRadius: "8px", // Optional: for rounded corners
+              padding: "20px", // Optional: add padding to give the spinner more breathing room
+              backgroundColor: "rgba(255, 255, 255, 0.8)", // Light background for the spinner
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Optional: add shadow for visual depth
+            }}
+          >
+            <CircularProgress size={60} color="primary" />
+          </Box>
+        </>
       )}
 
       {/* Search Results Section */}

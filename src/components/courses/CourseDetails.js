@@ -185,8 +185,12 @@ export default function CourseDetails() {
                 </Button>
               )}
             </Grid>
-
+            <Box>
+              <ChatButton/>
             <ScrollProgress />
+
+            </Box>
+           
           </Grid>
         </Box>
       )}
