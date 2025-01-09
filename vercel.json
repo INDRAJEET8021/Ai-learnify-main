@@ -3,15 +3,26 @@
     "version":2,
     "builds": [
         {
-            "src":".backend/index.py",
+            "src":"backend/app.py",
             "use": "@vercel/python",
             "config":{"runtime":"python3.8"}
+        },
+        {
+          "src": "package.json",
+          "use": "@vercel/static-build",
+          "config": {
+            "distDir": "build"
+          }
         }
     ],
     "routes": [
         {
-            "src":"/(.*)",
-            "dest":"/"
+            "src": "/api/(.*)", 
+            "dest": "backend/app.py"
+        },
+        {
+          "src": "/(.*)",
+          "dest": "build/$1"
         }
     ]
 }

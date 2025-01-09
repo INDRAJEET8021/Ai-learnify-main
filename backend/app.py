@@ -52,6 +52,10 @@ class User(db.Model):
         return f"<User {self.username}>"
 
 
+@app.route('/api', methods=['GET'])
+def api():
+    return "This is /api from backend"
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -522,3 +526,6 @@ def get_quiz():
     # print(quiz_data)
     
     return jsonify(quiz_data)
+
+if __name__ == '__main__':
+    app.run(debug=True)
