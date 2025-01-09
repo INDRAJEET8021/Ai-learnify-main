@@ -74,18 +74,20 @@ export default function Navbar() {
                 transition: "transform 0.3s ease", // Smooth transition on hover
               }}
             />
-            <span
-              style={{
-                fontWeight: "700", // Bold text for emphasis
-                fontSize: "1.5rem", // Slightly larger font size
-                color: "#ffffff", // White color for the text
-                textTransform: "uppercase", // Make text uppercase for boldness
-                letterSpacing: "1.5px", // Space between letters for a modern look
-                transition: "color 0.3s ease, transform 0.3s ease", // Smooth transition for color and scale
-              }}
-            >
-              AI Learning
-            </span>
+          <Typography
+  sx={{
+    fontWeight: "700", // Bold text for emphasis
+    fontSize: "1.5rem", // Slightly larger font size
+    color: "#ffffff", // White color for the text
+    textTransform: "uppercase", // Make text uppercase for boldness
+    letterSpacing: "1.5px", // Space between letters for a modern look
+    transition: "color 0.3s ease, transform 0.3s ease", // Smooth transition for color and scale
+    display: { xs: "none", sm: "block" }, // Hide on extra small screens, show on small and above
+  }}
+>
+  AI Learning
+</Typography>
+
           </a>
         </Typography>
 
@@ -148,18 +150,25 @@ export default function Navbar() {
         {/* Login/Avatar with Dropdown */}
         {!isLoggedIn ? (
           <div>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "orange",
-                ":hover": { backgroundColor: "darkorange" },
-                borderRadius: "20px",
-                padding: "10px 20px",
-              }}
-              onClick={() => setShowAuthPopup(true)}
-            >
-              Get Started
-            </Button>
+           <Button
+  variant="contained"
+  sx={{
+    backgroundColor: "orange",
+    ":hover": { backgroundColor: "darkorange" },
+    borderRadius: "20px", // Default for larger screens
+    padding: "10px 20px", // Default padding
+    fontSize: "1rem", // Default font size
+    "@media (max-width: 500px)": {
+      borderRadius: "10px", // Smaller border radius for smaller screens
+      padding: "6px 12px", // Smaller padding
+      fontSize: "0.875rem", // Smaller font size
+    },
+  }}
+  onClick={() => setShowAuthPopup(true)}
+>
+  Get Started
+</Button>
+
             {showAuthPopup && (
               <AuthPage onClose={() => setShowAuthPopup(false)} />
             )}
