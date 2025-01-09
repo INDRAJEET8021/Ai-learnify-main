@@ -1,16 +1,9 @@
-
 {
-    "version":2,
-    "builds": [
-        {
-            "src":"backend/index.py",
-            "use": "@vercel/python"
-        }
-    ],
-    "routes": [
-        {
-          "src": "/(.*)",
-          "dest": "/"
-        }
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
     ]
-}
+  }
+  
