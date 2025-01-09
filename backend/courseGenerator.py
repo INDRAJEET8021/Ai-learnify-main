@@ -10,7 +10,7 @@ genai.configure(api_key=gemini_api)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 def gen_roadmap(topic):
-    response = model.generate_content(f"""Generate a full course roadmap for the {topic}. Provide the output in JSON format, including the course title, a list of modules, and the headings under each module. Generate 2 modules and 2 headings for each module. 
+    response = model.generate_content(f"""Generate a full course roadmap for the {topic}. Provide the output in JSON format, including the course title, a list of modules, and the headings under each module.
                 The structure should be as follows:
                 {{
                 "id": "Make id of quiz by replacing spaces with - and all lowercase letters on title",

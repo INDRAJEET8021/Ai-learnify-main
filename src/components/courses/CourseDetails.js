@@ -18,7 +18,8 @@ export default function CourseDetails() {
     const fetchCourseDetails = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`/get_module?course-id=${courseId}`, {
+        // http://localhost:5000/
+        const response = await fetch(`https://ai-learnify-main-2.onrender.com/get_module?course-id=${courseId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`, // Add the JWT token to the Authorization header

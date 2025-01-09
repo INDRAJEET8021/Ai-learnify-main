@@ -27,7 +27,7 @@ export default function AdaptiveLearning() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("/api/courses", {
+    fetch("https://ai-learnify-main-2.onrender.com/api/courses", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Add the JWT token to the Authorization header
@@ -54,7 +54,8 @@ export default function AdaptiveLearning() {
   const handleRemoveCourse = (courseTitle) => {
     const token = localStorage.getItem("token");
 
-    fetch("/api/remove_course", {
+    // http://localhost:5000/register
+    fetch("https://ai-learnify-main-2.onrender.com/api/remove_course", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

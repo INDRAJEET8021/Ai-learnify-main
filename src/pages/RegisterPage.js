@@ -30,7 +30,8 @@ const RegisterPage = ({ onClose }) => {
     setSuccess("");
 
     try {
-      const response = await fetch("http://localhost:5000/register", {
+      // http://localhost:5000/register
+      const response = await fetch("https://ai-learnify-main-2.onrender.com/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

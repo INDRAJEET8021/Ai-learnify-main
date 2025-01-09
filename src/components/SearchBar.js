@@ -41,7 +41,8 @@ export default function SearchBar() {
       try {
         console.log(token);
         const response = await fetch(
-          `http://localhost:5000/api/courses/search?query=${encodeURIComponent(
+          // http://localhost:5000/
+          `https://ai-learnify-main-2.onrender.com/api/courses/search?query=${encodeURIComponent(
             query
           )}`,
           {

@@ -49,7 +49,7 @@ export default function AdaptiveQuizPage() {
   useEffect(() => {
     if (isLoggedIn) {
       const token = localStorage.getItem("token");
-      fetch("/api/courses", {
+      fetch("https://ai-learnify-main-2.onrender.com/api/courses", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`, // Add the JWT token to the Authorization header
@@ -84,7 +84,7 @@ export default function AdaptiveQuizPage() {
 
       setLoading(true);
       const response = await fetch(
-        `http://localhost:5000/quiz?topic=${encodeURIComponent(course)}`
+        `https://ai-learnify-main-2.onrender.com/quiz?topic=${encodeURIComponent(course)}`
       );
 
       if (!response.ok) {
