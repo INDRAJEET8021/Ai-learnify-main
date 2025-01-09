@@ -37,7 +37,7 @@ const AuthPage = ({onClose}) => {
     setSuccess('');
 
     try {
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch('https://ai-learnify-main-2.onrender.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
