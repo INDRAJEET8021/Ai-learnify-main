@@ -522,7 +522,3 @@ def get_quiz():
     # print(quiz_data)
     
     return jsonify(quiz_data)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
