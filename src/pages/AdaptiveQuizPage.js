@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChatButton from "../components/ChatButton ";
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 import { useAuth } from "../components/AuthContext/AuthContext";
 import Footer from "../components/Footer";
@@ -45,6 +46,10 @@ export default function AdaptiveQuizPage() {
 
   const navigate = useNavigate();
   const totalQuestions = quizData.length;
+
+  const handleAdd = () => {
+    navigate("/dashboard");
+  };
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -84,7 +89,9 @@ export default function AdaptiveQuizPage() {
 
       setLoading(true);
       const response = await fetch(
-        `https://ai-learnify-main-2.onrender.com/quiz?topic=${encodeURIComponent(course)}`
+        `https://ai-learnify-main-2.onrender.com/quiz?topic=${encodeURIComponent(
+          course
+        )}`
       );
 
       if (!response.ok) {
@@ -220,92 +227,120 @@ export default function AdaptiveQuizPage() {
                   Course-Based Quiz
                 </Typography>
                 {isLoggedIn ? (
-                  <Accordion
-                    sx={{
-                      maxHeight: "450px", // Set maximum height for the accordion
-                      overflow: "hidden", // Prevent content from spilling out
-                      border: "1px solid #e0e0e0",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                      background: "linear-gradient(to right, #e3f2fd, #f8f9fa)", // Subtle gradient background
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon sx={{ color: "#0d47a1" }} />}
+                  !courses ? (
+                    <Typography
                       sx={{
-                        backgroundColor: "#f0f4ff",
-                        borderBottom: "1px solid #e0e0e0",
-                        "&:hover": {
-                          backgroundColor: "#dfe8ff",
-                        },
+                        textAlign: "center",
+                        marginTop: "20px",
+                        color: "#757575",
                       }}
                     >
-                      <Typography
-                        variant="h6"
+                      No Course Found{" "}
+                      <Button
+                        variant="contained"
+                        onClick={handleAdd}
                         sx={{
-                          fontWeight: "500",
-                          color: "#0d47a1",
+                          marginLeft: "10px",
+                          backgroundColor: "#0d47a1",
+                          color: "#ffffff",
+                          "&:hover": { backgroundColor: "#0a3871" },
+                        }}
+                        endIcon={<LibraryAddIcon />}
+                      >
+                        Add
+                      </Button>
+                    </Typography>
+                  ) : (
+                    <Accordion
+                      sx={{
+                        maxHeight: "450px",
+                        overflow: "hidden",
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "8px",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        background:
+                          "linear-gradient(to right, #e3f2fd, #f8f9fa)", // Subtle gradient background
+                      }}
+                    >
+                      <AccordionSummary
+                        expandIcon={
+                          <ExpandMoreIcon sx={{ color: "#0d47a1" }} />
+                        }
+                        sx={{
+                          backgroundColor: "#f0f4ff",
+                          borderBottom: "1px solid #e0e0e0",
+                          "&:hover": {
+                            backgroundColor: "#dfe8ff",
+                          },
                         }}
                       >
-                        Select a Course
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails
-                      sx={{
-                        maxHeight: "150px", // Set the height for scrollable content
-                        overflowY: "auto", // Add vertical scroll
-                        padding: "10px",
-                        backgroundColor: "#f9fbfd", // Subtle light background
-                        scrollbarWidth: "none", // Hide scrollbar for Firefox
-                        "&::-webkit-scrollbar": {
-                          display: "none", // Hide scrollbar for Chrome and others
-                        },
-                      }}
-                    >
-                      <Grid container spacing={2}>
-                        {courses.map((course) => (
-                          <Grid item xs={12} key={course.id}>
-                            <Button
-                              variant={
-                                selectedCourse === course.id
-                                  ? "contained"
-                                  : "outlined"
-                              }
-                              onClick={() => {
-                                setSelectedCourse(course.id);
-                                setTopic(""); // Reset topic if course is selected
-                              }}
-                              fullWidth
-                              sx={{
-                                padding: "14px",
-                                fontWeight: "bold",
-                                backgroundColor:
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontWeight: "500",
+                            color: "#0d47a1",
+                          }}
+                        >
+                          Select a Course
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails
+                        sx={{
+                          maxHeight: "150px", // Set the height for scrollable content
+                          overflowY: "auto", // Add vertical scroll
+                          padding: "10px",
+                          backgroundColor: "#f9fbfd", // Subtle light background
+                          scrollbarWidth: "none", // Hide scrollbar for Firefox
+                          "&::-webkit-scrollbar": {
+                            display: "none", // Hide scrollbar for Chrome and others
+                          },
+                        }}
+                      >
+                        <Grid container spacing={2}>
+                          {courses.map((course) => (
+                            <Grid item xs={12} key={course.id}>
+                              <Button
+                                variant={
                                   selectedCourse === course.id
-                                    ? "#0d47a1"
-                                    : "transparent",
-                                color:
-                                  selectedCourse === course.id
-                                    ? "#ffffff"
-                                    : "#0d47a1",
-                                border: "2px solid #0d47a1",
-                                borderRadius: "8px",
-                                transition: "0.3s",
-                                "&:hover": {
+                                    ? "contained"
+                                    : "outlined"
+                                }
+                                onClick={() => {
+                                  setSelectedCourse(course.id);
+                                  setTopic(""); // Reset topic if course is selected
+                                }}
+                                fullWidth
+                                sx={{
+                                  padding: "14px",
+                                  fontWeight: "bold",
                                   backgroundColor:
                                     selectedCourse === course.id
-                                      ? "#0a3871"
-                                      : "#e3f2fd",
-                                  transform: "scale(1.05)",
-                                },
-                              }}
-                            >
-                              {course.title}
-                            </Button>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </AccordionDetails>
-                  </Accordion>
+                                      ? "#0d47a1"
+                                      : "transparent",
+                                  color:
+                                    selectedCourse === course.id
+                                      ? "#ffffff"
+                                      : "#0d47a1",
+                                  border: "2px solid #0d47a1",
+                                  borderRadius: "8px",
+                                  transition: "0.3s",
+                                  "&:hover": {
+                                    backgroundColor:
+                                      selectedCourse === course.id
+                                        ? "#0a3871"
+                                        : "#e3f2fd",
+                                    transform: "scale(1.05)",
+                                  },
+                                }}
+                              >
+                                {course.title}
+                              </Button>
+                            </Grid>
+                          ))}
+                        </Grid>
+                      </AccordionDetails>
+                    </Accordion>
+                  )
                 ) : (
                   <Typography
                     sx={{
@@ -586,7 +621,6 @@ export default function AdaptiveQuizPage() {
       </Box>
 
       <ChatButton />
-    
     </div>
   );
 }

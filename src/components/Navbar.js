@@ -96,8 +96,9 @@ export default function Navbar() {
           aria-label="menu"
           sx={{ mr: 2 }}
           onClick={handleMenuClick}
+          
         >
-          <SegmentIcon />
+          <SegmentIcon size="larger" />
         </IconButton>
         <Menu
           anchorEl={anchorMenu}
@@ -172,6 +173,7 @@ export default function Navbar() {
                 marginRight: 2,
                 cursor: "pointer",
               }}
+              size="larger"
               onClick={handleAvatarClick}
             >
               {username.slice(0, 2).toUpperCase()}

@@ -55,7 +55,7 @@ const ChatButton = () => {
 
       // Make a POST request to Flask API to get the bot's response
       try {
-        const response = await fetch("http://127.0.0.1:5000/chat", {
+        const response = await fetch("https://ai-learnify-main-2.onrender.com/chat", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
