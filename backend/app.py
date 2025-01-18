@@ -46,6 +46,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 }
 
 
+
 # Cloudinary configuration
 cloudinary.config(
     cloud_name=os.getenv('cloud_name'),
