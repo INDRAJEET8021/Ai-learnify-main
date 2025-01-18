@@ -26,7 +26,13 @@ CORS(app)  # Enable CORS to allow cross-origin requests from React
 # Database Configuration
 # for local db
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Indrajeet:12345@localhost/Ai'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+# FreCliud databse
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('AIVEN_URL')
+
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
