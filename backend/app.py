@@ -22,6 +22,7 @@ import cloudinary.api
 app = Flask(__name__)
 CORS(app)  # Enable CORS to allow cross-origin requests from React
 
+ca_cert = os.getenv('DB_CA_CERT')
 
 # Database Configuration
 # for local db
@@ -40,7 +41,7 @@ app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'connect_args': {
         'ssl': {
-            'ca': 'C:\Users\indra\Desktop\Ai-learnify-main\backend\ca.pem'  
+            'ca': ca_cert  
         }
     }
 }
