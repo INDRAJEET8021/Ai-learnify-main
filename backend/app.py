@@ -40,10 +40,11 @@ app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'connect_args': {
         'ssl': {
-            'ca': r'C:\Users\indra\Desktop\Ai-learnify-main\backend\certs\ca.pem'
+            'ca': 'C:\Users\indra\Desktop\Ai-learnify-main\backend\ca.pem'  
         }
     }
 }
+
 
 
 
