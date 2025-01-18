@@ -37,6 +37,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'connect_args': {
+        'ssl': {
+            'ca': r'C:\Users\indra\Desktop\Ai-learnify-main\backend\certs\ca.pem'
+        }
+    }
+}
+
+
 # Cloudinary configuration
 cloudinary.config(
     cloud_name=os.getenv('cloud_name'),
